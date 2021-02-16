@@ -1,0 +1,356 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PARTD</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-12-14"><meta name="DC.source" content="PARTD.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%Defining symbols using matlab symbolic toolbox.</span>
+syms <span class="string">m1</span> <span class="string">m2</span> <span class="string">l1</span> <span class="string">l2</span> <span class="string">g</span> <span class="string">M</span>;
+<span class="comment">%defining symbols</span>
+m1 = 100
+m2 = 100
+M = 1000
+l1 = 20
+l2 = 10
+g = 9.8
+<span class="comment">%Matrix A</span>
+A = [0 1 0                  0 0                  0;
+     0 0 (-g*m1)/M          0 (-g*m2)/M          0;
+     0 0 0                  1 0                  0;
+     0 0 (-g*(m1+M))/(M*l1) 0 (-g*m2)/(M*l1)     0;
+     0 0 0                  0 0                  1;
+     0 0 (-g*m1)/(M*l2)     0 (-g*(m2+M))/(M*l2) 0]
+ <span class="comment">%Matrix B</span>
+ B = [0 ; 1/M ; 0 ; 1/(M*l1) ; 0 ; 1/(M*l2)]
+ C = eye(6)
+ D = [0;0;0;0;0;0]
+ <span class="comment">%Finding out the eigen values of A</span>
+ F1 = eigs(A)
+ <span class="comment">%Defining LQR Controller cost Functions.</span>
+ Q = eye(6);
+Q(1,1) = 10;
+Q(2,2) = 10 ;
+Q(3,3) = 10;
+Q(4,4) = 100000;
+Q(5,5) = 10;
+Q(6,6) = 100000;
+ R = [0.00001]
+<span class="comment">%Finding out the LQR gains.</span>
+K = lqr(A,B,Q,R)
+<span class="comment">%Finding out the new eigens values obtained after applying LQR to system.</span>
+A_ = A-B*K
+F2 = eigs(A_)
+sys = ss(A_,B,C,D)
+<span class="comment">%initial state of the system</span>
+X0 = [0;0;pi/6;0;pi/18;0];
+<span class="comment">%we take time_range as t</span>
+t = 00:0.1:100;
+<span class="comment">% u = 1, a step input</span>
+u = ones(size(t));
+<span class="comment">% simulate</span>
+[y,t,~] = lsim(sys,u,t,X0);
+<span class="comment">%Plot</span>
+subplot(3,1,1)
+plot(t,y(:,1))
+title(<span class="string">'Gantry Crane Position'</span>)
+xlabel(<span class="string">'Time(Seconds)'</span>)
+ylabel(<span class="string">'x(Meters)'</span>)
+<span class="comment">%Plot</span>
+subplot(3,1,2)
+plot(t,y(:,3)*(180/pi),<span class="string">'r'</span>)
+title(<span class="string">'Angle Variation of Pendulm 1'</span>)
+xlabel(<span class="string">'Time(Seconds)'</span>)
+ylabel(<span class="string">'Q1(Degree)'</span>)
+<span class="comment">%Plot</span>
+subplot(3,1,3)
+plot(t,y(:,5)*(180/pi),<span class="string">'g'</span>)
+title(<span class="string">'Angle Variation of Pendulm 2'</span>)
+xlabel(<span class="string">'Time(Seconds)'</span>)
+ylabel(<span class="string">'Q2(degrees)'</span>)
+</pre><pre class="codeoutput">
+m1 =
+
+   100
+
+
+m2 =
+
+   100
+
+
+M =
+
+        1000
+
+
+l1 =
+
+    20
+
+
+l2 =
+
+    10
+
+
+g =
+
+    9.8000
+
+
+A =
+
+         0    1.0000         0         0         0         0
+         0         0   -0.9800         0   -0.9800         0
+         0         0         0    1.0000         0         0
+         0         0   -0.5390         0   -0.0490         0
+         0         0         0         0         0    1.0000
+         0         0   -0.0980         0   -1.0780         0
+
+
+B =
+
+   1.0e-03 *
+
+         0
+    1.0000
+         0
+    0.0500
+         0
+    0.1000
+
+
+C =
+
+     1     0     0     0     0     0
+     0     1     0     0     0     0
+     0     0     1     0     0     0
+     0     0     0     1     0     0
+     0     0     0     0     1     0
+     0     0     0     0     0     1
+
+
+D =
+
+     0
+     0
+     0
+     0
+     0
+     0
+
+
+F1 =
+
+   0.0000 + 1.0425i
+   0.0000 - 1.0425i
+   0.0000 + 0.7282i
+   0.0000 - 0.7282i
+   0.0000 + 0.0000i
+   0.0000 + 0.0000i
+
+
+R =
+
+   1.0000e-05
+
+
+K =
+
+   1.0e+04 *
+
+    0.1000    0.5063    1.3403    9.7887    9.5540    2.2267
+
+
+A_ =
+
+         0    1.0000         0         0         0         0
+   -1.0000   -5.0629  -14.3834  -97.8866  -96.5198  -22.2667
+         0         0         0    1.0000         0         0
+   -0.0500   -0.2531   -1.2092   -4.8943   -4.8260   -1.1133
+         0         0         0         0         0    1.0000
+   -0.1000   -0.5063   -1.4383   -9.7887  -10.6320   -2.2267
+
+
+F2 =
+
+ -11.1328 + 0.0000i
+  -0.1269 + 0.7766i
+  -0.1269 - 0.7766i
+  -0.4347 + 0.0000i
+  -0.1813 + 0.3569i
+  -0.1813 - 0.3569i
+
+
+sys =
+ 
+  A = 
+            x1       x2       x3       x4       x5       x6
+   x1        0        1        0        0        0        0
+   x2       -1   -5.063   -14.38   -97.89   -96.52   -22.27
+   x3        0        0        0        1        0        0
+   x4    -0.05  -0.2531   -1.209   -4.894   -4.826   -1.113
+   x5        0        0        0        0        0        1
+   x6     -0.1  -0.5063   -1.438   -9.789   -10.63   -2.227
+ 
+  B = 
+           u1
+   x1       0
+   x2   0.001
+   x3       0
+   x4   5e-05
+   x5       0
+   x6  0.0001
+ 
+  C = 
+       x1  x2  x3  x4  x5  x6
+   y1   1   0   0   0   0   0
+   y2   0   1   0   0   0   0
+   y3   0   0   1   0   0   0
+   y4   0   0   0   1   0   0
+   y5   0   0   0   0   1   0
+   y6   0   0   0   0   0   1
+ 
+  D = 
+       u1
+   y1   0
+   y2   0
+   y3   0
+   y4   0
+   y5   0
+   y6   0
+ 
+Continuous-time state-space model.
+
+</pre><img vspace="5" hspace="5" src="PARTD_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%Defining symbols using matlab symbolic toolbox.
+syms m1 m2 l1 l2 g M;
+%defining symbols
+m1 = 100
+m2 = 100
+M = 1000
+l1 = 20
+l2 = 10
+g = 9.8
+%Matrix A
+A = [0 1 0                  0 0                  0;
+     0 0 (-g*m1)/M          0 (-g*m2)/M          0;
+     0 0 0                  1 0                  0;
+     0 0 (-g*(m1+M))/(M*l1) 0 (-g*m2)/(M*l1)     0;
+     0 0 0                  0 0                  1;
+     0 0 (-g*m1)/(M*l2)     0 (-g*(m2+M))/(M*l2) 0]
+ %Matrix B
+ B = [0 ; 1/M ; 0 ; 1/(M*l1) ; 0 ; 1/(M*l2)]
+ C = eye(6)
+ D = [0;0;0;0;0;0]
+ %Finding out the eigen values of A
+ F1 = eigs(A)
+ %Defining LQR Controller cost Functions.
+ Q = eye(6);
+Q(1,1) = 10;
+Q(2,2) = 10 ;
+Q(3,3) = 10;
+Q(4,4) = 100000;
+Q(5,5) = 10;
+Q(6,6) = 100000;
+ R = [0.00001]
+%Finding out the LQR gains.
+K = lqr(A,B,Q,R)
+%Finding out the new eigens values obtained after applying LQR to system.
+A_ = A-B*K
+F2 = eigs(A_)
+sys = ss(A_,B,C,D)
+%initial state of the system
+X0 = [0;0;pi/6;0;pi/18;0];
+%we take time_range as t
+t = 00:0.1:100;
+% u = 1, a step input
+u = ones(size(t));
+% simulate
+[y,t,~] = lsim(sys,u,t,X0);
+%Plot
+subplot(3,1,1)
+plot(t,y(:,1))
+title('Gantry Crane Position')
+xlabel('Time(Seconds)')
+ylabel('x(Meters)')
+%Plot
+subplot(3,1,2)
+plot(t,y(:,3)*(180/pi),'r')
+title('Angle Variation of Pendulm 1')
+xlabel('Time(Seconds)')
+ylabel('Q1(Degree)')
+%Plot
+subplot(3,1,3)
+plot(t,y(:,5)*(180/pi),'g')
+title('Angle Variation of Pendulm 2')
+xlabel('Time(Seconds)')
+ylabel('Q2(degrees)')
+
+
+ 
+##### SOURCE END #####
+--></body></html>

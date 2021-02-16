@@ -1,0 +1,156 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PARTE</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-12-14"><meta name="DC.source" content="PARTE.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%Defining symbols using matlab symbolic toolbox.</span>
+syms <span class="string">m1</span> <span class="string">m2</span> <span class="string">l1</span> <span class="string">l2</span> <span class="string">g</span> <span class="string">M</span>;
+<span class="comment">%Defining C matrix as per the conditions</span>
+C1=[1 0 0 0 0 0];                 <span class="comment">% C matrix for x</span>
+C2=[0 0 1 0 0 0; 0 0 0 0 1 0];     <span class="comment">% C matrix for theta1,theta2</span>
+C3=[1 0 0 0 0 0; 0 0 0 0 1 0];     <span class="comment">% C matrix for x,theta2</span>
+C4=[1 0 0 0 0 0;
+    0 0 1 0 0 0;
+    0 0 0 0 1 0];                  <span class="comment">% C matrix for x,theta1,theta2</span>
+<span class="comment">%Matrix A</span>
+A = [0 1 0                  0 0                  0;
+     0 0 (-g*m1)/M          0 (-g*m2)/M          0;
+     0 0 0                  1 0                  0;
+     0 0 (-g*(m1+M))/(M*l1) 0 (-g*m2)/(M*l1)     0;
+     0 0 0                  0 0                  1;
+     0 0 (-g*m1)/(M*l2)     0 (-g*(m2+M))/(M*l2) 0];
+
+<span class="comment">%Checking Obervabiltiy for x.</span>
+C1_=[C1 ;C1*A; C1*A^2; C1*A^3; C1*A^4; C1*A^5];
+R_C1 = rank(C1_)
+
+<span class="comment">%Checking Obervabiltiy for theta1,theta2.</span>
+C2_=[C2 ;C2*A; C2*A^2; C2*A^3; C2*A^4; C2*A^5];
+R_C2 = rank(C2_)
+
+<span class="comment">%Checking Obervabiltiy for x,theta2.</span>
+C3_=[C3 ;C3*A; C3*A^2; C3*A^3; C3*A^4; C3*A^5];
+R_C3 = rank(C3_)
+
+<span class="comment">%Checking Obervabiltiy for x,theta1,theta2.</span>
+C4_=[C4 ;C4*A; C4*A^2; C4*A^3; C4*A^4; C4*A^5];
+R_C4 = rank(C4_)
+</pre><pre class="codeoutput">
+R_C1 =
+
+     6
+
+
+R_C2 =
+
+     4
+
+
+R_C3 =
+
+     6
+
+
+R_C4 =
+
+     6
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%Defining symbols using matlab symbolic toolbox.
+syms m1 m2 l1 l2 g M;
+%Defining C matrix as per the conditions
+C1=[1 0 0 0 0 0];                 % C matrix for x
+C2=[0 0 1 0 0 0; 0 0 0 0 1 0];     % C matrix for theta1,theta2
+C3=[1 0 0 0 0 0; 0 0 0 0 1 0];     % C matrix for x,theta2
+C4=[1 0 0 0 0 0; 
+    0 0 1 0 0 0;
+    0 0 0 0 1 0];                  % C matrix for x,theta1,theta2 
+%Matrix A
+A = [0 1 0                  0 0                  0;
+     0 0 (-g*m1)/M          0 (-g*m2)/M          0;
+     0 0 0                  1 0                  0;
+     0 0 (-g*(m1+M))/(M*l1) 0 (-g*m2)/(M*l1)     0;
+     0 0 0                  0 0                  1;
+     0 0 (-g*m1)/(M*l2)     0 (-g*(m2+M))/(M*l2) 0];
+ 
+%Checking Obervabiltiy for x. 
+C1_=[C1 ;C1*A; C1*A^2; C1*A^3; C1*A^4; C1*A^5];
+R_C1 = rank(C1_)
+
+%Checking Obervabiltiy for theta1,theta2. 
+C2_=[C2 ;C2*A; C2*A^2; C2*A^3; C2*A^4; C2*A^5];
+R_C2 = rank(C2_)
+
+%Checking Obervabiltiy for x,theta2. 
+C3_=[C3 ;C3*A; C3*A^2; C3*A^3; C3*A^4; C3*A^5];
+R_C3 = rank(C3_)
+
+%Checking Obervabiltiy for x,theta1,theta2. 
+C4_=[C4 ;C4*A; C4*A^2; C4*A^3; C4*A^4; C4*A^5];
+R_C4 = rank(C4_)
+##### SOURCE END #####
+--></body></html>
